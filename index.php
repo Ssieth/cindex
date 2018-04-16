@@ -344,6 +344,9 @@
             </div>
   </div>
 </div>
+    <script>
+      var clientIP = "<?php echo $_SERVER['REMOTE_ADDR'] ?>";
+    </script>
     <script src="/cindex/js/jquery-3.2.1.min.js"></script>
     <script src="/cindex/js/popper.min.js"></script>
     <script src="/cindex/js/bootstrap-4.0.0.js"></script>

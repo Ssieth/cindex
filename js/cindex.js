@@ -24,7 +24,7 @@ function processURL() {
     // We should have a length of 3, really.  [0] will be empty, [1] will be username, [2] will be code
     userName = aryExtras[1];
     $("#slackUsername").val(userName);
-    if (aryExtras.length > 2) { 
+    if (aryExtras.length > 2) {
       cindexID = aryExtras[2];
     }
     if (cindexID == "") {
@@ -63,6 +63,13 @@ function getCindexListArray() {
     }
   });
   return "";
+}
+
+function createPad() {
+  var aryOut = [];
+
+  // First lets add a directives lines
+  varOut.push("!slack !ip=" + clientIP);
 }
 
 function getCindexPad() {
