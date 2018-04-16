@@ -79,10 +79,8 @@
 			  <div class="form-row" id="rowEntrySelect">
 				  <div class="col-lg" id="colEntrySelect">
 					  <div class="input-group">
-						<select id="entrySelect" class="form-control">
-							<option value="" selected disabled>Select an Entry</option>
-
-							<option>1</option>
+						<select id="entrySelect" class="form-control" disabled>
+							<option value="" selected>No Username</option>
 						</select>
 						  <div class="input-group-append">
 						        <button type="button" class="btn btn-primary" disabled='disabled' id='modalEditChar'>OK </button>
@@ -107,7 +105,7 @@
                     <section id="sectionBasic">
                       <div class="form-row justify-content-center" id="headerSectionBasic">
                         <div class="form-group col-lg-8">
-                          <h4 class="font-weight-bold" style="display: inline-block;">Basic Information</h4><span class="badge badge-dark align-top ml-1">Required</span></div>
+                          <h4 class="font-weight-bold" style="display: inline-block;">Basic Information</h4><span class="badge align-middle ml-1" style="color: red;">Required</span></div>
                         </div>
 
 					<!-- CIndex ID -->
@@ -300,7 +298,7 @@
 					<!--Nature Card -->
                         <div class="vertical-input-group col-lg-4 mb-4" id="colNature">
                           <div class="input-group" id="natureTitleGroup">
-                            <input name="natureTitle" type="text" class="form-control mx-1" id="natureTitle" placeholder="Nature Card Title">
+                            <input name="natureTitle" type="text" class="form-control mx-1 font-weight-bold" id="natureTitle" placeholder="Nature Card Title">
                             </div>
                           <div class="input-group" id="natureDescriptionGroup">
                             <textarea name="natureDescription" rows="3" class="form-control mx-1" id="natureDescription" placeholder="Nature Card Description"></textarea>
@@ -310,7 +308,7 @@
 					<!--Strength Card -->
                         <div class="vertical-input-group col-lg-4 mb-4" id="colStrength">
                           <div class="input-group" id="strengthTitleGroup">
-                            <input name="strengthTitle" type="text" class="form-control mx-1" id="strengthTitle" placeholder="Strength Card Title">
+                            <input name="strengthTitle" type="text" class="form-control mx-1 font-weight-bold" id="strengthTitle" placeholder="Strength Card Title">
                             </div>
                           <div class="input-group" id="strengthDescriptionGroup">
                             <textarea name="strengthDescription" rows="3" class="form-control mx-1" id="strengthDescription" placeholder="Strength Card Description"></textarea>
@@ -323,7 +321,7 @@
 					<!--Weakness Card -->
                         <div class="vertical-input-group col-lg-4 mb-4" id="colWeakness">
                           <div class="input-group" id="weaknessTitleGroup">
-                            <input name="weaknessTitle" type="text" class="form-control mx-1" id="weaknessTitle" placeholder="Weakness Card Title">
+                            <input name="weaknessTitle" type="text" class="form-control mx-1 font-weight-bold" id="weaknessTitle" placeholder="Weakness Card Title">
                             </div>
                           <div class="input-group" id="weaknessDescriptionGroup">
                             <textarea name="weaknessDescription" rows="3" class="form-control mx-1" id="weaknessDescription" placeholder="Weakness Card Description"></textarea>
@@ -333,7 +331,7 @@
 					<!--Subplot Card -->
                         <div class="vertical-input-group col-lg-4" id="colSubplot">
 						  <div class="input-group" id="subplotTitleGroup">
-							<input name="subplotTitle" type="text" class="form-control mx-1" id="subplotTitle" placeholder="Subplot Card Title">
+							<input name="subplotTitle" type="text" class="form-control mx-1 font-weight-bold" id="subplotTitle" placeholder="Subplot Card Title">
 							</div>
                           <div class="input-group" id="subplotDescriptionGroup">
                             <textarea name="subplotDescription" rows="3" class="form-control mx-1" id="subplotDescription" placeholder="Subplot Card Description"></textarea>
