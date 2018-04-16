@@ -70,7 +70,12 @@
 			  <div id="rowCreateEntry" class="form-row">
 				 <div class="col-lg">
 					 <!-- Only show this if edit is clicked and there are no existing entires. -->
+					 <div class="input-group">
 						<input name="newCindexId" type="text" class="form-control" id="newCindexId" placeholder="New CIndex ID">
+						 	<div class="input-group-append">
+						        <button type="button" class="btn btn-primary" disabled='disabled' id='modalCreateChar'>OK </button>
+							</div>
+						 </div>
 					  	<small class="text-muted">two-letter abbreviation, lowercase</small>
 
 					 </div>
@@ -105,7 +110,7 @@
                     <section id="sectionBasic">
                       <div class="form-row justify-content-center" id="headerSectionBasic">
                         <div class="form-group col-lg-8">
-                          <h4 class="font-weight-bold" style="display: inline-block;">Basic Information</h4><span class="badge align-middle ml-1" style="color: red;">Required</span></div>
+                          <h4 class="font-weight-bold" style="display: inline-block;">Basic Information</h4><span class="badge align-top ml-1" style="color: red;">Required</span></div>
                         </div>
 
 					<!-- CIndex ID -->
@@ -243,7 +248,7 @@
                     <section id="sectionBio">
                       <div class="form-row justify-content-center mt-4" id="headerSectionBio">
                         <div class="form-group col-lg-8">
-                        <h4 class="font-weight-bold" style="display: inline-block;">Biographical Information</h4><span class="badge badge-secondary align-top ml-1">Optional</span> </div>
+                        <h4 class="font-weight-bold" style="display: inline-block;">Biographical Information</h4><span class="badge align-top ml-1" style="color: gray;">Optional</span> </div>
                       </div>
 
 				<!--Age, Gender Identity, and Sexual Orientation -->
@@ -291,7 +296,7 @@
                     <section id="sectionCards">
                       <div class="form-row justify-content-center mt-4" id="headerSectionCards">
                         <div class="form-group col-lg-8">
-                          <h4 class="font-weight-bold" style="display: inline-block;">Card Information</h4><span class="badge badge-secondary align-top ml-1">Optional</span> </div>
+                          <h4 class="font-weight-bold" style="display: inline-block;">Card Information</h4><span class="badge align-top ml-1" style="color: gray;">Optional</span> </div>
                         </div>
                       <div class="form-row justify-content-center" id="rowNatureStrength">
 
