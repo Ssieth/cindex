@@ -431,8 +431,38 @@ $('#modalEditChar').click(function() {
   $('#welcomeModal').modal('hide');
 })
 
+function addCharToList() {
+  var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
+  var added = true;
+  $.get(listURL,function(data) {
+    var arr = data.split("\n");
+    if (arr[0].substr(0,1) != "!") {
+      // There's no directive line so we need to add one
+      arr.splice(0,0,"!slack");
+    } else {
+      arr[0] = "!slack";
+    }
+    for (var i = 1; i < arr.length; i++) {
+      if (arr[i] == $("#cindexId").val()) {
+        added = false;
+      }
+    } 
+    if (added) {
+      arr.push($("#cindexId").val());
+      var padText = arr.join("\n");
+      var data = {};
+      var url = "https://cabbit.org.uk/pad/savedoc.php"
+      data["filename"] = "storium_slack_cindex_" + userName;
+      data["filetype"] = "main";
+      data["filetext"] = padText;
+      $.post( url, data).done(function( data ) {
+        console.log( "Added to index" );
+      });
+    }
+  });
+}
 
-$("#saveEntry").click(function() {
+function saveCharacterFile() {
   var padText = createPad();
   var data = {};
   var url = "https://cabbit.org.uk/pad/savedoc.php"
@@ -442,4 +472,9 @@ $("#saveEntry").click(function() {
   $.post( url, data).done(function( data ) {
     alert( "Saved!" );
   });
+}
+
+$("#saveEntry").click(function() {
+  addCharToList();
+  saveCharacterFile();
 })
