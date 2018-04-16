@@ -446,7 +446,7 @@ function addCharToList() {
       if (arr[i] == $("#cindexId").val()) {
         added = false;
       }
-    }
+    } 
     if (added) {
       arr.push($("#cindexId").val());
       var padText = arr.join("\n");
