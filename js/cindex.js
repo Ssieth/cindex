@@ -61,7 +61,8 @@ function getCindexListArray() {
     var $select = $('#entrySelect');
     // remove all of the old options
     // add new options
-    $select.append("<option value='' disabled='disabled' selected='selected'>Select one--</option>");
+	$select.removeProp( "disabled" );
+    $select.append("<option value='' disabled='disabled' selected='selected'>Select an Entry</option>");
     for (var i = 1; i < arr.length; i++) {
       $select.append("<option value='" + arr[i] + "'>" + arr[i] + "</option>");
     }
