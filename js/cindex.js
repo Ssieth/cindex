@@ -65,82 +65,97 @@ function getCindexListArray() {
   return "";
 }
 
-function createPad() {
-  var aryOut = [];
+function createPad_init() {
+  // Set up an empty pad file
+  aryPad = [];
 
-  // Set up an empty file
   for (var i = 0; i <= 74; i++) {
-    varOut.push("");
+    aryPad.push("");
   }
 
+  return aryPad;
+}
+
+function createPad_addDirectives(aryPad) {
   // First lets add a directives lines
-  varOut[0] = "!slack !ip=" + clientIP;
+  aryPad[0] = "!slack !ip=" + clientIP;
+}
 
+function createPad_addStatics(aryPad) {
   // And all the static lines
-  varOut[1] = "[1] Character Index ID";
-  varOut[4] = "[4] Character Name*";
-  varOut[7] = "[7] Character URL ID (Important: ONLY the part that refers to your character, not a full URL! https://storium.com/character/[THIS PART ONLY]/in/game-name)";
-  varOut[10] = "[10] NPC? (y/n)*";
-  varOut[13] = "[13] Game Name*";
-  varOut[16] = "[16] Game URL ID (Important: ONLY the part that refers to the game, not a full URL! https://storium.com/character/character-name/in/[THIS PART ONLY])";
-  varOut[19] = "[19] Is this an 18+ game? (y/n)*";
-  varOut[22] = "[22] Is this a Private Game? (y/n)*";
-  varOut[25] = "BIO AND STATS (Keep items marked \"†\" to 1-2 words for best-looking results)";
-  varOut[27] = "[27] Avatar URL (Square image, less than 500 KB.  Supports GIF, JPEG, PNG, and BMP)";
-  varOut[30] = "[30] Age (numerals)";
-  varOut[33] = "[33] Gender†";
-  varOut[36] = "[36] Sexual Orientation/Identity (straight, pansexual, etc.)†";
-  varOut[39] = "[39] COMING SOON";
-  varOut[42] = "[42] Short Blurb";
-  varOut[45] = "[45] Extended Blurb (use \n to create a line break)";
-  varOut[48] = "# CHARACTER CARDS";
-  varOut[50] = "[50] Nature Card Title†";
-  varOut[53] = "[53] Nature Card Description";
-  varOut[56] = "[56] Subplot Card Title†";
-  varOut[59] = "[59] Subplot Card Description";
-  varOut[62] = "[62] Strength Card Title†";
-  varOut[65] = "[65] Strength Card Description";
-  varOut[68] = "[68] Weakness Card Title†";
-  varOut[71] = "[71] Weakness Card Description";
-  varOut[74] = "### BLANK (Leave this)";
+  aryPad[1] = "[1] Character Index ID";
+  aryPad[4] = "[4] Character Name*";
+  aryPad[7] = "[7] Character URL ID (Important: ONLY the part that refers to your character, not a full URL! https://storium.com/character/[THIS PART ONLY]/in/game-name)";
+  aryPad[10] = "[10] NPC? (y/n)*";
+  aryPad[13] = "[13] Game Name*";
+  aryPad[16] = "[16] Game URL ID (Important: ONLY the part that refers to the game, not a full URL! https://storium.com/character/character-name/in/[THIS PART ONLY])";
+  aryPad[19] = "[19] Is this an 18+ game? (y/n)*";
+  aryPad[22] = "[22] Is this a Private Game? (y/n)*";
+  aryPad[25] = "BIO AND STATS (Keep items marked \"†\" to 1-2 words for best-looking results)";
+  aryPad[27] = "[27] Avatar URL (Square image, less than 500 KB.  Supports GIF, JPEG, PNG, and BMP)";
+  aryPad[30] = "[30] Age (numerals)";
+  aryPad[33] = "[33] Gender†";
+  aryPad[36] = "[36] Sexual Orientation/Identity (straight, pansexual, etc.)†";
+  aryPad[39] = "[39] COMING SOON";
+  aryPad[42] = "[42] Short Blurb";
+  aryPad[45] = "[45] Extended Blurb (use \n to create a line break)";
+  aryPad[48] = "# CHARACTER CARDS";
+  aryPad[50] = "[50] Nature Card Title†";
+  aryPad[53] = "[53] Nature Card Description";
+  aryPad[56] = "[56] Subplot Card Title†";
+  aryPad[59] = "[59] Subplot Card Description";
+  aryPad[62] = "[62] Strength Card Title†";
+  aryPad[65] = "[65] Strength Card Description";
+  aryPad[68] = "[68] Weakness Card Title†";
+  aryPad[71] = "[71] Weakness Card Description";
+  aryPad[74] = "### BLANK (Leave this)";
+}
 
+function createPad_addVars(aryPad) {
   // Now add our variable data
-  varOut[2] = userName + $("#cindexId").val();  // index id
-  varOut[5] = $('#characterName').val();  // name
-  varOut[8] = $('#characterPageCuri').val();  // char slug
+  aryPad[2] = userName + $("#cindexId").val();  // index id
+  aryPad[5] = $('#characterName').val();  // name
+  aryPad[8] = $('#characterPageCuri').val();  // char slug
   if ($('#yesNpc')[0].checked) {
-    varOut[11] = 'y'; // npc y/n
+    aryPad[11] = 'y'; // npc y/n
   } else {
-    varOut[11] = 'n'; // npc y/n
+    aryPad[11] = 'n'; // npc y/n
   }
-  varOut[14] = $('#gameName').val(); // game Name
-  varOut[17] = $('#characterPageGuri').val(); // game slug
+  aryPad[14] = $('#gameName').val(); // game Name
+  aryPad[17] = $('#characterPageGuri').val(); // game slug
   if ($('#isAdult')[0].checked) {
-    varOut[20] = "y"; // 18+ y/n
+    aryPad[20] = "y"; // 18+ y/n
   } else {
-    varOut[20] = "n"; // 18+ y/n
+    aryPad[20] = "n"; // 18+ y/n
   }
   if ($('#isPrivate')[0].checked) {
-    varOut[23] = "y"; // 18+ y/n
+    aryPad[23] = "y"; // 18+ y/n
   } else {
-    varOut[23] = "n"; // 18+ y/n
+    aryPad[23] = "n"; // 18+ y/n
   }
-  varOut[28] = $('#avatarLink').val(); // avatar URL
-  varOut[31] = $('#age').val(); // age
-  varOut[34] = $("#genderIdentity").val(); // gender
-  varOut[37] = $("#sexualOrientation").val(); // sexual orientation
-  varOut[43] = ""; // short blurb
-  varOut[46] = ""; // extended blurb
-  varOut[51] = ""; // nature card Title
-  varOut[54] = ""; // nature card desc
-  varOut[57] = ""; // subplot card title
-  varOut[60] = ""; // subplot card desc
-  varOut[63] = ""; // strength card title
-  varOut[66] = ""; // strength card desc
-  varOut[69] = ""; // weakness card Title
-  varOut[72] = ""; // weakness card desc
+  aryPad[28] = $('#avatarLink').val(); // avatar URL
+  aryPad[31] = $('#age').val(); // age
+  aryPad[34] = $("#genderIdentity").val(); // gender
+  aryPad[37] = $("#sexualOrientation").val(); // sexual orientation
+  aryPad[43] = ""; // short blurb
+  aryPad[46] = ""; // extended blurb
+  aryPad[51] = ""; // nature card Title
+  aryPad[54] = ""; // nature card desc
+  aryPad[57] = ""; // subplot card title
+  aryPad[60] = ""; // subplot card desc
+  aryPad[63] = ""; // strength card title
+  aryPad[66] = ""; // strength card desc
+  aryPad[69] = ""; // weakness card Title
+  aryPad[72] = ""; // weakness card desc
+}
 
 
+function createPad() {
+  var aryPad = createPad_init();
+  createPad_addDirectives(aryPad);
+  createPad_addStatics(aryPad);
+  createPad_addVars(aryPad);
+  return aryPad.join("\n");
 }
 
 function getCindexPad() {
