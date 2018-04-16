@@ -331,6 +331,7 @@ function checkModalInfo() {
   }
 
   $('#modalEditChar').prop('disabled', !isOK);
+  $('#modalCreateChar').prop('disabled', !isOK);
   return isOK;
 }
 
@@ -415,7 +416,7 @@ $('#isPrivate').change(function() {
  });
 
  // Handle new cindex id from dialog
- $("#newCindexId").change(function() {
+ $("#newCindexId").keyup(function() {
    cindexID = $("#newCindexId").val();
    $("#cindexId").val(cindexID);
    checkModalInfo();
