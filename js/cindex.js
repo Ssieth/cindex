@@ -260,7 +260,7 @@ function getCindexPad() {
 }
 
 /* For Testing: Show the Welcome Modal on page load */
-    $('#welcomeModal').modal('show');
+    //$('#welcomeModal').modal('show');
 
 $( document ).ready(function() {
   /* Only throw modal if we don't have the details we need */
@@ -479,6 +479,7 @@ function saveCharacterFile() {
 				return value;
 			}	
 		}
+	  $('#savedNotification').css( "opacity", 1 );
 	  $('#savedNotification').html( "Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
 		setTimeout(function(){
 		$('#savedNotification').fadeTo( 'slow', 0.5 );
