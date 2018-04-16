@@ -25,7 +25,7 @@ function processURL() {
     userName = aryExtras[1];
     $("#slackUsername").val(userName);
     if (aryExtras.length > 2) {
-      cindexID = aryExtras[2]; 
+      cindexID = aryExtras[2];
     }
     if (cindexID == "") {
       getCindexListArray();
