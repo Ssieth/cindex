@@ -434,6 +434,10 @@ $('#modalEditChar').click(function() {
   $('#welcomeModal').modal('hide');
 })
 
+$('#modalCreateChar').click(function() {
+  $('#welcomeModal').modal('hide');
+})
+
 function addCharToList() {
   var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
   var added = true;
