@@ -259,7 +259,9 @@ function getCindexPad() {
 
 }
 
-/* Show the Welcome Modal on page load */
+/* For Testing: Show the Welcome Modal on page load */
+    $('#welcomeModal').modal('show');
+
 $( document ).ready(function() {
   /* Only throw modal if we don't have the details we need */
   processURL();
@@ -267,7 +269,6 @@ $( document ).ready(function() {
     $('#welcomeModal').modal({
       keyboard: false
     });
-    //$('#welcomeModal').modal('show');
     $('#rowEntrySelect').hide();
 		$('#ifNoEntries').hide();
 		$('#rowCreateEntry').show();
@@ -470,7 +471,18 @@ function saveCharacterFile() {
   data["filetype"] = "main";
   data["filetext"] = padText;
   $.post( url, data).done(function( data ) {
-    alert( "Saved!" );
+	  var now = new Date();
+	  function leadZero(value) {
+			if(value < 10) {
+				return '0' + value;
+			} else {
+				return value;
+			}	
+		}
+	  $('#savedNotification').html( "Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
+		setTimeout(function(){
+		$('#savedNotification').fadeTo( 'slow', 0.5 );
+		}, 1000);
   });
 }
 

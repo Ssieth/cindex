@@ -14,6 +14,7 @@
 <div class="navbar navbar-expand-lg navbar-light bg-light mb-4 fixed-top" id="navigationBar">
   <a class="navbar-brand" href="#">Character Index Editor</a>
 	<div class="ml-auto">
+<span id="savedNotification" class="text-muted mr-3"></span>
   <button id="deleteEntry" type="button" class="btn btn-danger">
 	  Delete
   </button>
@@ -77,21 +78,21 @@
 
 			  <div class="form-row" id="rowEntrySelect">
 				  <div class="col-lg" id="colEntrySelect">
-					  <div class="form-group">
+					  <div class="input-group">
 						<select id="entrySelect" class="form-control">
 							<option value="" selected disabled>Select an Entry</option>
 
 							<option>1</option>
 						</select>
+						  <div class="input-group-append">
+						        <button type="button" class="btn btn-primary" disabled='disabled' id='modalEditChar'>OK </button>
+							  </div>
+
 			  		</div>
 				  </div>
 				  </div>
 			   </form>
 		</div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" disabled='disabled' id='modalEditChar'>Edit Character</button>
-    </div>
 
       </div>
 	</div>
@@ -114,7 +115,7 @@
                         <div class="form-group col-lg-2" id="colCindexId">
                           <label for="cindexId">CIndex ID</label>
                           <div class="input-group">
-                            <input name="cindexId" type="text" class="form-control" id="cindexId">
+                            <input name="cindexId" type="text" class="form-control" id="cindexId" disabled>
                             </div>
                           </div>
 
