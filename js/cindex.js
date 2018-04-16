@@ -49,6 +49,9 @@ function getCindexListArray() {
     var $select = $('#entrySelect');
     $select.find("option").remove();
     var arr = data.split("\n");
+    if (arr[0] == "<!DOCTYPE html>\r") {
+      return "No list pad";
+    }
     if (arr.length < 1) {
       return "No lines in file";
     }
@@ -123,11 +126,12 @@ function createPad_addVars(aryPad) {
   aryPad[8] = $('#characterPageCuri').val();  // char slug
   if ($('#yesNpc')[0].checked) {
     aryPad[11] = 'y'; // npc y/n
+    aryPad[17] = $('#gamePageGuri').val(); // game slug
   } else {
     aryPad[11] = 'n'; // npc y/n
+    aryPad[17] = $('#characterPageGuri').val(); // game slug
   }
   aryPad[14] = $('#gameName').val(); // game Name
-  aryPad[17] = $('#characterPageGuri').val(); // game slug
   if ($('#isAdult')[0].checked) {
     aryPad[20] = "y"; // 18+ y/n
   } else {
