@@ -46,6 +46,7 @@ function getCindexListArray() {
   $.get(url,function(data) {
     console.log("Loaded cindex list: " + url);
     console.log(data);
+    var $select = $('#entrySelect');
     $select.find("option").remove();
     var arr = data.split("\n");
     if (arr.length < 1) {
@@ -58,10 +59,9 @@ function getCindexListArray() {
     if (arr.length < 2) {
       return "No lines in file";
     }
-    var $select = $('#entrySelect');
     // remove all of the old options
     // add new options
-	$select.removeProp( "disabled" );
+	  $select[0].disabled = false;
     $select.append("<option value='' disabled='disabled' selected='selected'>Select an Entry</option>");
     for (var i = 1; i < arr.length; i++) {
       $select.append("<option value='" + arr[i] + "'>" + arr[i] + "</option>");
@@ -448,7 +448,7 @@ function addCharToList() {
       if (arr[i] == $("#cindexId").val()) {
         added = false;
       }
-    } 
+    }
     if (added) {
       arr.push($("#cindexId").val());
       var padText = arr.join("\n");
@@ -478,7 +478,7 @@ function saveCharacterFile() {
 				return '0' + value;
 			} else {
 				return value;
-			}	
+			}
 		}
 	  $('#savedNotification').css( "opacity", 1 );
 	  $('#savedNotification').html( "Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
