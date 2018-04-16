@@ -15,6 +15,10 @@ function addLineBreaks(text) {
   return text.replaceAll("\\n","\n");
 }
 
+function removeLineBreaks(text) {
+  return text.replaceAll("\n","\\n");
+}
+
 /* Process the URL we've been given and try to get slack username and cindex ID from it */
 function processURL() {
   console.log(thisURLExtras.trim().length);
@@ -78,7 +82,7 @@ function createPad_init() {
 
 function createPad_addDirectives(aryPad) {
   // First lets add a directives lines
-  aryPad[0] = "!slack !ip=" + clientIP;
+  aryPad[0] = "!slack";
 }
 
 function createPad_addStatics(aryPad) {
@@ -98,7 +102,7 @@ function createPad_addStatics(aryPad) {
   aryPad[36] = "[36] Sexual Orientation/Identity (straight, pansexual, etc.)†";
   aryPad[39] = "[39] COMING SOON";
   aryPad[42] = "[42] Short Blurb";
-  aryPad[45] = "[45] Extended Blurb (use \n to create a line break)";
+  aryPad[45] = "[45] Extended Blurb (use \\n to create a line break)";
   aryPad[48] = "# CHARACTER CARDS";
   aryPad[50] = "[50] Nature Card Title†";
   aryPad[53] = "[53] Nature Card Description";
@@ -113,7 +117,7 @@ function createPad_addStatics(aryPad) {
 
 function createPad_addVars(aryPad) {
   // Now add our variable data
-  aryPad[2] = userName + $("#cindexId").val();  // index id
+  aryPad[2] = userName + " " + $("#cindexId").val();  // index id
   aryPad[5] = $('#characterName').val();  // name
   aryPad[8] = $('#characterPageCuri').val();  // char slug
   if ($('#yesNpc')[0].checked) {
@@ -137,16 +141,16 @@ function createPad_addVars(aryPad) {
   aryPad[31] = $('#age').val(); // age
   aryPad[34] = $("#genderIdentity").val(); // gender
   aryPad[37] = $("#sexualOrientation").val(); // sexual orientation
-  aryPad[43] = ""; // short blurb
-  aryPad[46] = ""; // extended blurb
-  aryPad[51] = ""; // nature card Title
-  aryPad[54] = ""; // nature card desc
-  aryPad[57] = ""; // subplot card title
-  aryPad[60] = ""; // subplot card desc
-  aryPad[63] = ""; // strength card title
-  aryPad[66] = ""; // strength card desc
-  aryPad[69] = ""; // weakness card Title
-  aryPad[72] = ""; // weakness card desc
+  aryPad[43] = removeLineBreaks($("#shortBio").val()); // short blurb
+  aryPad[46] = removeLineBreaks($("#longBio").val()); // extended blurb
+  aryPad[51] = $("#natureTitle").val(); // nature card Title
+  aryPad[54] = removeLineBreaks($("#natureDescription").val()); // nature card desc
+  aryPad[57] = $("#subplotTitle").val(); // subplot card title
+  aryPad[60] = removeLineBreaks($("#subplotDescription").val()); // subplot card desc
+  aryPad[63] = $("#strengthTitle").val(); // strength card title
+  aryPad[66] = removeLineBreaks($("#strengthDescription").val()); // strength card desc
+  aryPad[69] = $("#weaknessTitle").val(); // weakness card Title
+  aryPad[72] = removeLineBreaks($("#weaknessDescription").val()); // weakness card desc
 }
 
 
@@ -211,16 +215,26 @@ function getCindexPad() {
 
     if (isNPC) {
       $('#yesNpc').click();
+      $('#yesNpc')[0].checked = true;
+      $('#noNpc')[0].checked = false;
     } else {
       $('#noNpc').click();
+      $('#yesNpc')[0].checked = false;
+      $('#noNpc')[0].checked = true;
     }
 
     if (isPrivate) {
       $('#isPrivateButton').click();
+      $('#isPrivate')[0].checked = true;
+    } else {
+      $('#isPrivate')[0].checked = false;
     }
 
     if (isAdult) {
       $('#isAdult').click();
+      $('#isAdult')[0].checked = true;
+    } else {
+      $('#isAdult')[0].checked = true;
     }
 
     $('#age').val(age);
@@ -415,4 +429,17 @@ $("#entrySelect").change(function() {
 
 $('#modalEditChar').click(function() {
   $('#welcomeModal').modal('hide');
+})
+
+
+$("#saveEntry").click(function() {
+  var padText = createPad();
+  var data = {};
+  var url = "https://cabbit.org.uk/pad/savedoc.php"
+  data["filename"] = "storium_slack_cindex_" + userName + "_" + $("#cindexId").val();
+  data["filetype"] = "main";
+  data["filetext"] = padText;
+  $.post( url, data).done(function( data ) {
+    alert( "Saved!" );
+  });
 })
