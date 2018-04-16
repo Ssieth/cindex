@@ -1,4 +1,3 @@
-
 /* Grab username and character ID from the URL if we can */
 var userName = "";
 var cindexID = "";
@@ -6,15 +5,18 @@ var baseURL = "https://cabbit.org.uk/cindex";
 var thisURL = window.location.href;
 var thisURLExtras = thisURL.replace(baseURL,"");
 
+/* Replace all instances of a string */
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
 };
 
+/* Unescape line breaks */
 function addLineBreaks(text) {
   return text.replaceAll("\\n","\n");
 }
 
+/* Escape line breaks */
 function removeLineBreaks(text) {
   return text.replaceAll("\n","\\n");
 }
@@ -38,8 +40,10 @@ function processURL() {
   }
 }
 
+/* Get the cindex list for the current user and set up the select for them */
 function getCindexListArray() {
   if (userName === "") {
+    // This shouldn't happen but....
     return "No User";
   }
   var url = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
@@ -73,6 +77,7 @@ function getCindexListArray() {
   return "";
 }
 
+/* Initialise a new cindex character pad */
 function createPad_init() {
   // Set up an empty pad file
   aryPad = [];
@@ -84,11 +89,13 @@ function createPad_init() {
   return aryPad;
 }
 
+/* Add a directives line to new cindex character pad */
 function createPad_addDirectives(aryPad) {
   // First lets add a directives lines
   aryPad[0] = "!slack";
 }
 
+/* Add static lines to new cindex character pad */
 function createPad_addStatics(aryPad) {
   // And all the static lines
   aryPad[1] = "[1] Character Index ID";
@@ -119,6 +126,7 @@ function createPad_addStatics(aryPad) {
   aryPad[74] = "### BLANK (Leave this)";
 }
 
+/* Add form data to new cindex character pad */
 function createPad_addVars(aryPad) {
   // Now add our variable data
   aryPad[2] = userName + " " + $("#cindexId").val();  // index id
@@ -158,7 +166,7 @@ function createPad_addVars(aryPad) {
   aryPad[72] = removeLineBreaks($("#weaknessDescription").val()); // weakness card desc
 }
 
-
+/* Create new cindex character pad for this character */
 function createPad() {
   var aryPad = createPad_init();
   createPad_addDirectives(aryPad);
@@ -167,11 +175,14 @@ function createPad() {
   return aryPad.join("\n");
 }
 
+/* Get data from an existing cindex character pad */
 function getCindexPad() {
+  // Can't get the data if we don't know which pad
   if (cindexID === "" || userName === "") {
     return "";
   }
   var url = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName + "_" + cindexID;
+  // Make the call to the server to get the data
   $.get(url,function(data) {
     console.log("Loaded cindex pad: " + url);
     var arr = data.split("\n");
@@ -264,9 +275,7 @@ function getCindexPad() {
 
 }
 
-/* For Testing: Show the Welcome Modal on page load */
-    //$('#welcomeModal').modal('show');
-
+/* Main initialisation */
 $( document ).ready(function() {
   /* Only throw modal if we don't have the details we need */
   processURL();
