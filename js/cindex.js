@@ -275,65 +275,6 @@ function getCindexPad() {
 
 }
 
-/* Main initialisation */
-$( document ).ready(function() {
-  /* Only throw modal if we don't have the details we need */
-  processURL();
-  if (cindexID === "") {
-    $('#welcomeModal').modal({
-      keyboard: false
-    });
-    $('#rowEntrySelect').hide();
-		$('#ifNoEntries').hide();
-		$('#rowCreateEntry').show();
-  } else {
-    $("#cindexId").val(cindexID);
-    $("#userName").val(userName);
-    getCindexPad();
-  }
-});
-
-    /* Set Button Script: Character Page URI (Gets URIs, sets URI fields) */
-$('#buttonSetCharacterPage').click(function() {
-        var $characterPageLink = $('#characterPageLink').val();
-        var $characterPageMatch = $characterPageLink.match(/https:\/\/storium.com\/character\/(.*?)\/in\/(.*)/);
-        $('#characterPageCuri').val($characterPageMatch[1]);
-        $('#characterPageGuri').val($characterPageMatch[2]);
-    });
-
- /* Edit/Create Toggle */
-
- $("input[name='selectEditCreate']").change(function () {
-	 var numEntries = 0; // for testing
-   numEntries = $('#entrySelect').find("option").length;
-
-	 // if edit is selected
-	 	 if ($('#selectEdit' ).prop( 'checked' ) ) {
-
-		 // and if there are more than 0 entries
-		 if ( numEntries > 0 ) {
-
-			 // hide new id input, show entry select
-			 $('#rowCreateEntry').slideUp();
-			 $('#rowEntrySelect').slideDown();
-		 }
-
-		 // otherwise show the "you need to create an entry" message
-		 else {
-			 $('#ifNoEntries').slideDown();
-			 $('#rowCreateEntry').slideDown();
-			 $('#rowSelectEditCreate').slideUp();
-		 }
-	 }
-
-	 // otherwise, show the create entry input
-	 else {
-		$('#rowEntrySelect').slideUp();
-		$('#rowCreateEntry').slideDown();
-	 }
-     });
-
-
 function checkModalInfo() {
   var isOK = true;
   if (userName == "") {
@@ -348,109 +289,8 @@ function checkModalInfo() {
   return isOK;
 }
 
-// Handle what happends when we hide hte modal
-$("#welcomeModal").on('hide.bs.modal', function (e) {
-  if (checkModalInfo()) {
-  } else {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return false;
-  }
-});
 
-
-/* Set Button Script: Game Page URI (Gets URI, sets URI field) (*/
-$('#buttonSetGamePage').click(function() {
-        var $gamePageLink = $('#gamePageLink').val();
-        var $gamePageMatch = $gamePageLink.match(/https\:\/\/storium.com\/game\/(.*)/);
-        $('#gamePageGuri').val($gamePageMatch[1]);
-    });
-
-
-// Change of slack userName
-$("#slackUsername").blur(function() {
-  userName = $("#slackUsername").val();
-  getCindexListArray();
-});
-
-// NPC toggle
-$("input[name='typeNpc']").change(function () {
-	// if yes
-        if ($( '#yesNpc' ).prop( 'checked' )) {
-		// switch character/game page input in url block
-            $( '#blockCharacterPage' ).slideUp();
-		$( '#blockGamePage' ).slideDown();
-        } else {
-		// otherwise switch it back
-		$( '#blockCharacterPage' ).slideDown();
-		$( '#blockGamePage' ).slideUp();
-	}
-    });
-
-// Unlisted toggle
-$( '#isUnlisted' ).change(function() {
-	// if "no name" toggled on
-	 if ($( '#isUnlisted' ).prop( 'checked' )) {
-		 // hide everything
-		 $( '#blockPages, #blockGameName' ).slideUp();
-	 }
-	 else {
-		 // else if game is private
-		 if ($( '#isPrivate').prop( 'checked' )) {
-			 // show game name block
-			 $( '#blockGameName' ).slideDown();
-		 }
-		 else {
-		 // otherwise show everything
-			 $( '#blockPages, #blockGameName' ).slideDown();
-		 }
-	 }
-
-  });
-
-// Private Game Toggle
-$('#isPrivate').change(function() {
-	// if "private" is toggled on
-	 if ( $( '#isPrivate' ).prop( 'checked' ) ) {
-		 // hide url block
-		 $( '#blockPages' ).slideUp();
-	 }
-	 else {
-		 // else if game is unlisted (no name)
-		 if ($( '#isUnlisted' ).prop( 'checked' )) {
-			 // do nothing
-		 }
-		 else {
-			 // otherwise show url block
-			 $( '#blockPages' ).slideDown();
-		 }
-	 }
-
- });
-
- // Handle new cindex id from dialog
- $("#newCindexId").keyup(function() {
-   cindexID = $("#newCindexId").val();
-   $("#cindexId").val(cindexID);
-   checkModalInfo();
-   getCindexPad();
- });
-
-$("#entrySelect").change(function() {
-  cindexID = $("#entrySelect").val();
-  $("#cindexId").val(cindexID);
-  checkModalInfo();
-  getCindexPad();
-});
-
-$('#modalEditChar').click(function() {
-  $('#welcomeModal').modal('hide');
-})
-
-$('#modalCreateChar').click(function() {
-  $('#welcomeModal').modal('hide');
-})
-
+// Remove cindexId from the cindex list for the user (if it is already there)
 function removeCharFromList() {
   var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
   var removed = false;
@@ -484,6 +324,7 @@ function removeCharFromList() {
   });
 }
 
+// Add cindexId to the cindex list for the user (if it is not already there)
 function addCharToList() {
   var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
   var added = true;
@@ -515,16 +356,17 @@ function addCharToList() {
   });
 }
 
+// Pop up the deleteion confirm dialogue and deal wih button clicks appropriately
 function deleteConfirm() {
   // Get reference to the modal
   $mod = $('#deleteModal');
 
   // Show the modal
   $mod.modal({
-    keyboard: false
+    keyboard: true
   });
 
-  // Set up buttons
+  // Set up the confirm button.  (the cancel button already closes the form)
   $mod.find("#btnDeleteConfirm").click(function() {
     console.log("Delete Confirmed, starting process...");
     // Delete main cindex character pad
@@ -548,6 +390,7 @@ function deleteConfirm() {
   })
 }
 
+// Set standard notification to user
 function setNotification(text) {
   $('#savedNotification').css( "opacity", 1 );
   $('#savedNotification').html( text );
@@ -556,6 +399,7 @@ function setNotification(text) {
   }, 1000);
 }
 
+// Add a leading zero, for 2-digit numbers
 function leadZero(value) {
   if(value < 10) {
     return '0' + value;
@@ -564,6 +408,7 @@ function leadZero(value) {
   }
 }
 
+// Save the data to the main cindex character pad for the character
 function saveCharacterFile() {
   var padText = createPad();
   var data = {};
@@ -573,23 +418,172 @@ function saveCharacterFile() {
   data["filetext"] = padText;
   $.post( url, data).done(function( data ) {
 	  var now = new Date();
-
     setNotification("Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
-    /*
-	  $('#savedNotification').css( "opacity", 1 );
-	  $('#savedNotification').html( "Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
-		setTimeout(function(){
-		    $('#savedNotification').fadeTo( 'slow', 0.5 );
-		}, 1000);
-    */
   });
 }
 
+// -------------- Main initialisation - this kicks everything off ------------------------
+
+$( document ).ready(function() {
+  /* Only throw modal if we don't have the details we need */
+  processURL();
+  if (cindexID === "") {
+    $('#welcomeModal').modal({
+      keyboard: false
+    });
+    $('#rowEntrySelect').hide();
+		$('#ifNoEntries').hide();
+		$('#rowCreateEntry').show();
+  } else {
+    $("#cindexId").val(cindexID);
+    $("#userName").val(userName);
+    getCindexPad();
+  }
+});
+
+
+// -------------- Hooking up buttons and controls etc ------------------------
+
+/* Set Button Script: Character Page URI (Gets URIs, sets URI fields) */
+$('#buttonSetCharacterPage').click(function() {
+  var $characterPageLink = $('#characterPageLink').val();
+  var $characterPageMatch = $characterPageLink.match(/https:\/\/storium.com\/character\/(.*?)\/in\/(.*)/);
+  $('#characterPageCuri').val($characterPageMatch[1]);
+  $('#characterPageGuri').val($characterPageMatch[2]);
+});
+
+/* Edit/Create Toggle */
+$("input[name='selectEditCreate']").change(function () {
+  var numEntries = 0; // for testing
+  numEntries = $('#entrySelect').find("option").length;
+
+  // if edit is selected
+ 	if ($('#selectEdit' ).prop( 'checked' ) ) {
+	   // and if there are more than 0 entries
+     if ( numEntries > 0 ) {
+  	    // hide new id input, show entry select
+        $('#rowCreateEntry').slideUp();
+        $('#rowEntrySelect').slideDown();
+     } else {
+       // otherwise show the "you need to create an entry" message
+       $('#ifNoEntries').slideDown();
+		   $('#rowCreateEntry').slideDown();
+       $('#rowSelectEditCreate').slideUp();
+	   }
+  } else {
+   // otherwise, show the create entry input	$('#rowEntrySelect').slideUp();
+   $('#rowCreateEntry').slideDown();
+  }
+});
+
+
+// Main save button on form.
 $("#saveEntry").click(function() {
   addCharToList();
   saveCharacterFile();
 })
 
+// Main delete button on form
 $("#deleteEntry").click(function() {
   deleteConfirm();
 })
+
+// Handle new cindex id from dialog
+$("#newCindexId").keyup(function() {
+  cindexID = $("#newCindexId").val();
+  $("#cindexId").val(cindexID);
+  checkModalInfo();
+  getCindexPad();
+});
+
+//  Handle character selector on front-screen modal
+$("#entrySelect").change(function() {
+  cindexID = $("#entrySelect").val();
+  $("#cindexId").val(cindexID);
+  checkModalInfo();
+  getCindexPad();
+});
+
+// Edit button on front-screen modal
+$('#modalEditChar').click(function() {
+  $('#welcomeModal').modal('hide');
+})
+
+// Create button on front-screen modal
+$('#modalCreateChar').click(function() {
+  $('#welcomeModal').modal('hide');
+})
+
+// Handle what happends when we hide the modal
+$("#welcomeModal").on('hide.bs.modal', function (e) {
+  if (checkModalInfo()) {
+    // No need to do anything here, we're good to go
+  } else {
+    // If we don't have the details we need then don't close the modal
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return false;
+  }
+});
+
+/* Set Button Script: Game Page URI (Gets URI, sets URI field) (*/
+$('#buttonSetGamePage').click(function() {
+  var $gamePageLink = $('#gamePageLink').val();
+  var $gamePageMatch = $gamePageLink.match(/https\:\/\/storium.com\/game\/(.*)/);
+  $('#gamePageGuri').val($gamePageMatch[1]);
+});
+
+// Change of slack userName
+$("#slackUsername").blur(function() {
+  userName = $("#slackUsername").val();
+  getCindexListArray();
+});
+
+// NPC toggle
+$("input[name='typeNpc']").change(function () {
+	// if yes
+  if ($( '#yesNpc' ).prop( 'checked' )) {
+    // switch character/game page input in url block
+    $( '#blockCharacterPage' ).slideUp();
+    $( '#blockGamePage' ).slideDown();
+  } else {
+    // otherwise switch it back
+    $( '#blockCharacterPage' ).slideDown();
+    $( '#blockGamePage' ).slideUp();
+	}
+});
+
+// Unlisted toggle
+$( '#isUnlisted' ).change(function() {
+  // if "no name" toggled on
+  if ($( '#isUnlisted' ).prop( 'checked' )) {
+    // hide everything
+    $( '#blockPages, #blockGameName' ).slideUp();
+  } else {
+    // else if game is private
+    if ($( '#isPrivate').prop( 'checked' )) {
+     // show game name block
+     $( '#blockGameName' ).slideDown();
+    } else {
+      // otherwise show everything
+      $( '#blockPages, #blockGameName' ).slideDown();
+    }
+  }
+});
+
+// Private Game Toggle
+$('#isPrivate').change(function() {
+  // if "private" is toggled on
+  if ( $( '#isPrivate' ).prop( 'checked' ) ) {
+    // hide url block
+    $( '#blockPages' ).slideUp();
+  } else {
+    // else if game is unlisted (no name)
+    if ($( '#isUnlisted' ).prop( 'checked' )) {
+     // do nothing
+    } else {
+     // otherwise show url block
+     $( '#blockPages' ).slideDown();
+    }
+  }
+});
