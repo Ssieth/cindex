@@ -451,6 +451,39 @@ $('#modalCreateChar').click(function() {
   $('#welcomeModal').modal('hide');
 })
 
+function removeCharFromList() {
+  var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
+  var removed = false;
+  $.get(listURL,function(data) {
+    var arr = data.split("\n");
+    var arrOut = ["!slack"]; // create output array with directive line in
+    if (arr[0].substr(0,1) != "!") {
+      // There's no directive line so we need to add one
+      arr.splice(0,0,"!slack");
+    } else {
+      arr[0] = "!slack";
+    }
+    for (var i = 1; i < arr.length; i++) {
+      if (arr[i] == $("#cindexId").val()) {
+        removed = true;
+      } else {
+        arrOut.push(arr[i]);
+      }
+    }
+    if (removed) {
+      var padText = arrOut.join("\n");
+      var data = {};
+      var url = "https://cabbit.org.uk/pad/savedoc.php"
+      data["filename"] = "storium_slack_cindex_" + userName;
+      data["filetype"] = "main";
+      data["filetext"] = padText;
+      $.post( url, data).done(function( data ) {
+        console.log( "Removed from index" );
+      });
+    }
+  });
+}
+
 function addCharToList() {
   var listURL = "https://cabbit.org.uk/pad/p/storium_slack_cindex_" + userName;
   var added = true;
@@ -482,6 +515,55 @@ function addCharToList() {
   });
 }
 
+function deleteConfirm() {
+  // Get reference to the modal
+  $mod = $('#deleteModal');
+
+  // Show the modal
+  $mod.modal({
+    keyboard: false
+  });
+
+  // Set up buttons
+  $mod.find("#btnDeleteConfirm").click(function() {
+    console.log("Delete Confirmed, starting process...");
+    // Delete main cindex character pad
+    var url = "https://cabbit.org.uk/pad/deletepad.php";
+    var filename = "storium_slack_cindex_" + userName + "_" + $("#cindexId").val();
+    var data = { pad: filename};
+    $.post(url,data).done(function(data) {
+      console.log("Deleted main pad: " + url);
+      console.log(data);
+    });
+
+    // Remove from cindex list pad
+    removeCharFromList();
+
+    // Close the modal
+    $mod.modal("hide");
+
+    // Signal that the delete has happened
+    var now = new Date();
+    setNotification("Deleted at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
+  })
+}
+
+function setNotification(text) {
+  $('#savedNotification').css( "opacity", 1 );
+  $('#savedNotification').html( text );
+  setTimeout(function() {
+      $('#savedNotification').fadeTo( 'slow', 0.5 );
+  }, 1000);
+}
+
+function leadZero(value) {
+  if(value < 10) {
+    return '0' + value;
+  } else {
+    return value;
+  }
+}
+
 function saveCharacterFile() {
   var padText = createPad();
   var data = {};
@@ -491,22 +573,23 @@ function saveCharacterFile() {
   data["filetext"] = padText;
   $.post( url, data).done(function( data ) {
 	  var now = new Date();
-	  function leadZero(value) {
-			if(value < 10) {
-				return '0' + value;
-			} else {
-				return value;
-			}
-		}
+
+    setNotification("Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
+    /*
 	  $('#savedNotification').css( "opacity", 1 );
 	  $('#savedNotification').html( "Saved at " + leadZero(now.getHours()) + ":" + leadZero(now.getMinutes()) + ":" + leadZero(now.getSeconds()) );
 		setTimeout(function(){
-		$('#savedNotification').fadeTo( 'slow', 0.5 );
+		    $('#savedNotification').fadeTo( 'slow', 0.5 );
 		}, 1000);
+    */
   });
 }
 
 $("#saveEntry").click(function() {
   addCharToList();
   saveCharacterFile();
+})
+
+$("#deleteEntry").click(function() {
+  deleteConfirm();
 })

@@ -31,6 +31,30 @@
 </button>
 -->
 
+
+<!-- Modal Y/N -->
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete the character?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the character?</p>
+        <p>This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnDeleteConfirm">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"  id="btnDeleteCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ----------- -->
+
 <!-- The Modal -->
 <div class="modal fade" id="welcomeModal">
   <div class="modal-dialog modal-dialog-centered modal-sm">
