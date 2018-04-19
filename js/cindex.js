@@ -114,7 +114,7 @@ function createPad_addStatics(aryPad) {
   aryPad[39] = "[39] COMING SOON";
   aryPad[42] = "[42] Short Blurb";
   aryPad[45] = "[45] Extended Blurb (use \\n to create a line break)";
-  aryPad[48] = "# CHARACTER CARDS";
+  aryPad[48] = "[48] CHARACTER CARDS";
   aryPad[50] = "[50] Nature Card Title†";
   aryPad[53] = "[53] Nature Card Description";
   aryPad[56] = "[56] Subplot Card Title†";
@@ -123,7 +123,7 @@ function createPad_addStatics(aryPad) {
   aryPad[65] = "[65] Strength Card Description";
   aryPad[68] = "[68] Weakness Card Title†";
   aryPad[71] = "[71] Weakness Card Description";
-  aryPad[74] = "### BLANK (Leave this)";
+  aryPad[74] = "[74] END -- do not remove this line";
 }
 
 /* Add form data to new cindex character pad */
